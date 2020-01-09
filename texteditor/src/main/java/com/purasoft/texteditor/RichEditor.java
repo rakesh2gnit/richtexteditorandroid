@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class MyRichEditText extends AppCompatEditText implements TextWatcher {
+public class RichEditor extends AppCompatEditText implements TextWatcher {
 
     public static final int FORMAT_BOLD = 0x01;
     public static final int FORMAT_ITALIC = 0x02;
@@ -53,33 +53,33 @@ public class MyRichEditText extends AppCompatEditText implements TextWatcher {
     private SpannableStringBuilder inputBefore;
     private Editable inputLast;
 
-    public MyRichEditText(Context context) {
+    public RichEditor(Context context) {
         super(context);
         init(null);
     }
 
-    public MyRichEditText(Context context, AttributeSet attrs) {
+    public RichEditor(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(attrs);
     }
 
-    public MyRichEditText(Context context, AttributeSet attrs, int defStyleAttr) {
+    public RichEditor(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(attrs);
     }
 
     private void init(AttributeSet attrs) {
-        TypedArray array = getContext().obtainStyledAttributes(attrs, R.styleable.MyRichEditText);
-        bulletColor = array.getColor(R.styleable.MyRichEditText_bulletColor, 0);
-        bulletRadius = array.getDimensionPixelSize(R.styleable.MyRichEditText_bulletRadius, 0);
-        bulletGapWidth = array.getDimensionPixelSize(R.styleable.MyRichEditText_bulletGapWidth, 0);
-        historyEnable = array.getBoolean(R.styleable.MyRichEditText_historyEnable, true);
-        historySize = array.getInt(R.styleable.MyRichEditText_historySize, 100);
-        linkColor = array.getColor(R.styleable.MyRichEditText_linkColor, 0);
-        linkUnderline = array.getBoolean(R.styleable.MyRichEditText_linkUnderline, true);
-        quoteColor = array.getColor(R.styleable.MyRichEditText_quoteColor, 0);
-        quoteStripeWidth = array.getDimensionPixelSize(R.styleable.MyRichEditText_quoteStripeWidth, 0);
-        quoteGapWidth = array.getDimensionPixelSize(R.styleable.MyRichEditText_quoteCapWidth, 0);
+        TypedArray array = getContext().obtainStyledAttributes(attrs, R.styleable.RichEditor);
+        bulletColor = array.getColor(R.styleable.RichEditor_bulletColor, 0);
+        bulletRadius = array.getDimensionPixelSize(R.styleable.RichEditor_bulletRadius, 0);
+        bulletGapWidth = array.getDimensionPixelSize(R.styleable.RichEditor_bulletGapWidth, 0);
+        historyEnable = array.getBoolean(R.styleable.RichEditor_historyEnable, true);
+        historySize = array.getInt(R.styleable.RichEditor_historySize, 100);
+        linkColor = array.getColor(R.styleable.RichEditor_linkColor, 0);
+        linkUnderline = array.getBoolean(R.styleable.RichEditor_linkUnderline, true);
+        quoteColor = array.getColor(R.styleable.RichEditor_quoteColor, 0);
+        quoteStripeWidth = array.getDimensionPixelSize(R.styleable.RichEditor_quoteStripeWidth, 0);
+        quoteGapWidth = array.getDimensionPixelSize(R.styleable.RichEditor_quoteCapWidth, 0);
         array.recycle();
 
         if (historyEnable && historySize <= 0) {

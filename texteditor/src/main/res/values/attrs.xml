@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="MyRichEditText">
+    <declare-styleable name="RichEditor">
         <attr name="bulletColor" format="reference|color" />
         <attr name="bulletRadius" format="reference|dimension" />
         <attr name="bulletGapWidth" format="reference|dimension" />

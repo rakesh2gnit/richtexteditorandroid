@@ -12,7 +12,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.purasoft.texteditor.MyRichEditText;
+import com.purasoft.texteditor.RichEditor;
 
 import petrov.kristiyan.colorpicker.ColorPicker;
 
@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String BULLET = "<ul><li>asdfg</li></ul>";
     private static final String EXAMPLE = BOLD + ITALIT + UNDERLINE + STRIKETHROUGH + BULLET;
 
-    private MyRichEditText myRichEditText;
+    private RichEditor myRichEditText;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
         bold.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                myRichEditText.bold(!myRichEditText.contains(MyRichEditText.FORMAT_BOLD));
+                myRichEditText.bold(!myRichEditText.contains(RichEditor.FORMAT_BOLD));
             }
         });
 
@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
         italic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                myRichEditText.italic(!myRichEditText.contains(MyRichEditText.FORMAT_ITALIC));
+                myRichEditText.italic(!myRichEditText.contains(RichEditor.FORMAT_ITALIC));
             }
         });
 
@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
         underline.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                myRichEditText.underline(!myRichEditText.contains(MyRichEditText.FORMAT_UNDERLINED));
+                myRichEditText.underline(!myRichEditText.contains(RichEditor.FORMAT_UNDERLINED));
             }
         });
 
@@ -110,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
         strikethrough.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                myRichEditText.strikethrough(!myRichEditText.contains(MyRichEditText.FORMAT_STRIKETHROUGH));
+                myRichEditText.strikethrough(!myRichEditText.contains(RichEditor.FORMAT_STRIKETHROUGH));
             }
         });
 
@@ -129,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
         bullet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                myRichEditText.bullet(!myRichEditText.contains(MyRichEditText.FORMAT_BULLET));
+                myRichEditText.bullet(!myRichEditText.contains(RichEditor.FORMAT_BULLET));
             }
         });
 

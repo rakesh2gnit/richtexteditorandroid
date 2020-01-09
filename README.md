@@ -11,7 +11,7 @@ Support Android 5.0+
 
 ## layout
 
-<com.purasoft.texteditor.RichEditor
+     <com.purasoft.texteditor.RichEditor
         android:id="@+id/myrichtext"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -29,8 +29,7 @@ Support Android 5.0+
         app:bulletRadius="@dimen/bullet_radius"
         app:bulletGapWidth="@dimen/bullet_gap_width"
         app:historyEnable="true"
-        app:historySize="99">
-    </com.purasoft.texteditor.RichEditor>
+        app:historySize="99"/>
     
 If you do not want to edit the text then add below two lines in layout:
 

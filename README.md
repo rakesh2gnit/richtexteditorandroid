@@ -9,6 +9,62 @@ Just select text and use one line code to style it!
 
 Support Android 5.0+
 
+## layout
+
+<com.purasoft.texteditor.RichEditor
+        android:id="@+id/myrichtext"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_above="@id/tools"
+        android:paddingTop="16dp"
+        android:paddingLeft="16dp"
+        android:paddingStart="16dp"
+        android:paddingRight="16dp"
+        android:paddingEnd="16dp"
+        android:gravity="top|start"
+        android:scrollbars="vertical"
+        android:background="@android:color/transparent"
+        app:bulletColor="@color/blue_500"
+        app:bulletRadius="@dimen/bullet_radius"
+        app:bulletGapWidth="@dimen/bullet_gap_width"
+        app:historyEnable="true"
+        app:historySize="99">
+    </com.purasoft.texteditor.RichEditor>
+    
+If you do not want to edit the text then add below two lines in layout:
+
+        android:editable="false"
+        tools:ignore="Deprecated"
+        
+To remove default copy/paste option on long press add below code in java class:
+
+    editor.setCustomSelectionActionModeCallback(new ActionMode.Callback() {
+            
+            @Override
+            public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+                //to keep the text selection capability available ( selection cursor)
+                return true;
+            }
+
+            @Override
+            public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+                //to prevent the menu from appearing
+                menu.clear();
+                return false;
+            }
+
+            @Override
+            public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+                return false;
+            }
+
+            @Override
+            public void onDestroyActionMode(ActionMode mode) {
+
+            }
+        });
+
 ## Api
 
  - `bold(boolean valid)` __bold__ the selected text.
@@ -37,7 +93,7 @@ Support Android 5.0+
  
  - `toHtml()` export as HTML file.
  
-If you want to get more control of the editable text, just extend MyRichEditText to get all protected method.
+If you want to get more control of the editable text, just extend RichEditor to get all protected method.
 
 #### Custom
 
@@ -63,7 +119,7 @@ At your top-level `build.gradle` file:
 And then at your project `build.gradle` file:
 
     dependencies {
-        implementation 'com.github.rakesh2gnit:richtexteditorandroid:1.0.0'
+        implementation 'com.github.rakesh2gnit:richtexteditorandroid:1.0.1'
     }
     
 Done!

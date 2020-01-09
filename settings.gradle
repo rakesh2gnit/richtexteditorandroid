@@ -1,0 +1,2 @@
+include ':app', ':texteditor'
+rootProject.name='RichTextEditorAndroid'

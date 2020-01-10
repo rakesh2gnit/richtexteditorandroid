@@ -7,14 +7,11 @@ import android.text.Editable;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.text.style.BackgroundColorSpan;
 import android.text.style.BulletSpan;
 import android.text.style.ForegroundColorSpan;
-import android.text.style.QuoteSpan;
 import android.text.style.StrikethroughSpan;
 import android.text.style.StyleSpan;
-import android.text.style.URLSpan;
 import android.text.style.UnderlineSpan;
 import android.util.AttributeSet;
 import android.view.inputmethod.InputMethodManager;
@@ -22,36 +19,19 @@ import android.view.inputmethod.InputMethodManager;
 import androidx.appcompat.widget.AppCompatEditText;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
-public class RichEditor extends AppCompatEditText implements TextWatcher {
+public class RichEditor extends AppCompatEditText {
 
     public static final int FORMAT_BOLD = 0x01;
     public static final int FORMAT_ITALIC = 0x02;
     public static final int FORMAT_UNDERLINED = 0x03;
     public static final int FORMAT_STRIKETHROUGH = 0x04;
     public static final int FORMAT_BULLET = 0x05;
-    public static final int FORMAT_TEXT_COLOR = 0x06;
-    public static final int FORMAT_BG_COLOR = 0x07;
 
     private int bulletColor = 0;
     private int bulletRadius = 0;
     private int bulletGapWidth = 0;
-    private boolean historyEnable = true;
-    private int historySize = 100;
-    private int linkColor = 0;
-    private boolean linkUnderline = true;
-    private int quoteColor = 0;
-    private int quoteStripeWidth = 0;
-    private int quoteGapWidth = 0;
-
-    private List<Editable> historyList = new LinkedList<>();
-    private boolean historyWorking = false;
-    private int historyCursor = 0;
-
-    private SpannableStringBuilder inputBefore;
-    private Editable inputLast;
 
     public RichEditor(Context context) {
         super(context);
@@ -73,31 +53,7 @@ public class RichEditor extends AppCompatEditText implements TextWatcher {
         bulletColor = array.getColor(R.styleable.RichEditor_bulletColor, 0);
         bulletRadius = array.getDimensionPixelSize(R.styleable.RichEditor_bulletRadius, 0);
         bulletGapWidth = array.getDimensionPixelSize(R.styleable.RichEditor_bulletGapWidth, 0);
-        historyEnable = array.getBoolean(R.styleable.RichEditor_historyEnable, true);
-        historySize = array.getInt(R.styleable.RichEditor_historySize, 100);
-        linkColor = array.getColor(R.styleable.RichEditor_linkColor, 0);
-        linkUnderline = array.getBoolean(R.styleable.RichEditor_linkUnderline, true);
-        quoteColor = array.getColor(R.styleable.RichEditor_quoteColor, 0);
-        quoteStripeWidth = array.getDimensionPixelSize(R.styleable.RichEditor_quoteStripeWidth, 0);
-        quoteGapWidth = array.getDimensionPixelSize(R.styleable.RichEditor_quoteCapWidth, 0);
         array.recycle();
-
-        if (historyEnable && historySize <= 0) {
-            throw new IllegalArgumentException("historySize must > 0");
-        }
-    }
-
-    @Override
-    protected void onAttachedToWindow() {
-        super.onAttachedToWindow();
-
-        addTextChangedListener(this);
-    }
-
-    @Override
-    protected void onDetachedFromWindow() {
-        super.onDetachedFromWindow();
-        removeTextChangedListener(this);
     }
 
     // StyleSpan ===================================================================================
@@ -490,110 +446,16 @@ public class RichEditor extends AppCompatEditText implements TextWatcher {
 
     // TextColor ===================================================================================
 
-    public void changeTextColor(boolean isTextColor, int color) {
+    public void changeTextColor(int color) {
 
             getEditableText().setSpan(new ForegroundColorSpan(color), getSelectionStart(), getSelectionEnd(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
     }
 
     // BackgroundColor ===================================================================================
 
-    public void changeBgColor(boolean isTextColor, int color) {
+    public void changeBgColor(int color) {
 
             getEditableText().setSpan(new BackgroundColorSpan(color), getSelectionStart(), getSelectionEnd(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-    }
-
-    // Redo/Undo ===================================================================================
-
-    @Override
-    public void beforeTextChanged(CharSequence text, int start, int count, int after) {
-        if (!historyEnable || historyWorking) {
-            return;
-        }
-
-        inputBefore = new SpannableStringBuilder(text);
-    }
-
-    @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-    }
-
-    @Override
-    public void afterTextChanged(Editable text) {
-        if (!historyEnable || historyWorking) {
-            return;
-        }
-
-        inputLast = new SpannableStringBuilder(text);
-        if (text != null && text.toString().equals(inputBefore.toString())) {
-            return;
-        }
-
-        if (historyList.size() >= historySize) {
-            historyList.remove(0);
-        }
-
-        historyList.add(inputBefore);
-        historyCursor = historyList.size();
-    }
-
-    public void redo() {
-        if (!redoValid()) {
-            return;
-        }
-
-        historyWorking = true;
-
-        if (historyCursor >= historyList.size() - 1) {
-            historyCursor = historyList.size();
-            setText(inputLast);
-        } else {
-            historyCursor++;
-            setText(historyList.get(historyCursor));
-        }
-
-        setSelection(getEditableText().length());
-        historyWorking = false;
-    }
-
-    public void undo() {
-        if (!undoValid()) {
-            return;
-        }
-
-        historyWorking = true;
-
-        historyCursor--;
-        setText(historyList.get(historyCursor));
-        setSelection(getEditableText().length());
-
-        historyWorking = false;
-    }
-
-    public boolean redoValid() {
-        if (!historyEnable || historySize <= 0 || historyList.size() <= 0 || historyWorking) {
-            return false;
-        }
-
-        return historyCursor < historyList.size() - 1 || historyCursor >= historyList.size() - 1 && inputLast != null;
-    }
-
-    public boolean undoValid() {
-        if (!historyEnable || historySize <= 0 || historyWorking) {
-            return false;
-        }
-
-        if (historyList.size() <= 0 || historyCursor <= 0) {
-            return false;
-        }
-
-        return true;
-    }
-
-    public void clearHistory() {
-        if (historyList != null) {
-            historyList.clear();
-        }
     }
 
     // Helper ======================================================================================
@@ -651,23 +513,6 @@ public class RichEditor extends AppCompatEditText implements TextWatcher {
             spanEnd = 0 < spanEnd && spanEnd < editable.length() && editable.charAt(spanEnd) == '\n' ? spanEnd - 1 : spanEnd;
             editable.removeSpan(span);
             editable.setSpan(new MyBulletSpan(bulletColor, bulletRadius, bulletGapWidth), spanStart, spanEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        }
-
-        QuoteSpan[] quoteSpans = editable.getSpans(start, end, QuoteSpan.class);
-        for (QuoteSpan span : quoteSpans) {
-            int spanStart = editable.getSpanStart(span);
-            int spanEnd = editable.getSpanEnd(span);
-            spanEnd = 0 < spanEnd && spanEnd < editable.length() && editable.charAt(spanEnd) == '\n' ? spanEnd - 1 : spanEnd;
-            editable.removeSpan(span);
-            editable.setSpan(new MyQuoteSpan(quoteColor, quoteStripeWidth, quoteGapWidth), spanStart, spanEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        }
-
-        URLSpan[] urlSpans = editable.getSpans(start, end, URLSpan.class);
-        for (URLSpan span : urlSpans) {
-            int spanStart = editable.getSpanStart(span);
-            int spanEnd = editable.getSpanEnd(span);
-            editable.removeSpan(span);
-            editable.setSpan(new MyURLSpan(span.getURL(), linkColor, linkUnderline), spanStart, spanEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
     }
 }

@@ -1,6 +1,7 @@
 <resources>
-    <string name="app_name">RichTextEditorAndroid</string>
-    <string name="app_repo">https://github.com/rakesh2gnit/RichTextEditor</string>
+    <string name="app_name">RichTextEditor</string>
+    <string name="app_repo">https://github.com/rakesh2gnit/richtexteditorandroid</string>
+    <string name="import_text">hello this is AJ and today we have a special podcast today we have a contest this is a transcription contest so I am going to speak about a subject and you need to listen and write down what I say and then you need to send me your transcript send me the text from this podcast send it as a personal message to my Forum send it to me in the furnace English forms and send it as a personal message so this is obviously for members just going to talk about 5 minutes spontaneously you need to write down the text of what I say when you talk about is an idea that tomorrow and I have been talking about and that is we are going to start a physical effortless.</string>
 
     <!-- Dialog -->
     <string name="dialog_title">Insert link</string>
@@ -19,7 +20,7 @@
     <string name="toast_format_clear">Format clear</string>
 
     <!-- Menu -->
-    <string name="menu_undo">Undo</string>
-    <string name="menu_redo">Redo</string>
+    <string name="menu_import">Import</string>
+    <string name="menu_export">Export</string>
     <string name="menu_github">GitHub</string>
 </resources>

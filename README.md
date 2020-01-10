@@ -84,13 +84,9 @@ To remove default copy/paste option on long press add below code in java class:
  
  - `clearFormats()` clear all formats. 
  
- - `redo()` when text changed, you can redo it!
- 
- - `undo()` when text change, you can also undo it!
- 
  - `fromHtml()` import from HTML file. 
  
- - `toHtml()` export as HTML file.
+ - `Html.toHtml(richEditor.getText())` export as HTML file.
  
 If you want to get more control of the editable text, just extend RichEditor to get all protected method.
 
@@ -101,10 +97,6 @@ If you want to get more control of the editable text, just extend RichEditor to 
  - `app:bulletRadius`
     
  - `app:bulletGapWidth`
- 
- - `app:historyEnable` `true` to enable record history, so you can `redo()` and `undo()`.
-    
- - `app:historySize` the record max limit.
  
 ## Gradle
 
@@ -118,7 +110,7 @@ At your top-level `build.gradle` file:
 And then at your project `build.gradle` file:
 
     dependencies {
-        implementation 'com.github.rakesh2gnit:richtexteditorandroid:1.0.1'
+        implementation 'com.github.rakesh2gnit:richtexteditorandroid:1.1.0'
     }
     
 Done!
@@ -126,6 +118,7 @@ Done!
 ## Thanks
 
  - [Mthli](https://github.com/mthli/Knife)
+ - [KristiyanP](https://github.com/kristiyanP/colorpicker)
  
 ## License
 

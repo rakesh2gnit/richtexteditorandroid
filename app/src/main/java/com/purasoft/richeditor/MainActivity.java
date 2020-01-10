@@ -3,6 +3,7 @@ package com.purasoft.richeditor;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,17 +26,17 @@ public class MainActivity extends AppCompatActivity {
     private static final String BULLET = "<ul><li>asdfg</li></ul>";
     private static final String EXAMPLE = BOLD + ITALIT + UNDERLINE + STRIKETHROUGH + BULLET;
 
-    private RichEditor myRichEditText;
+    private RichEditor richEditor;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        myRichEditText = findViewById(R.id.myrichtext);
+        richEditor = findViewById(R.id.myrichtext);
 
-        myRichEditText.fromHtml(EXAMPLE);
-        myRichEditText.setSelection(myRichEditText.getEditableText().length());
+        richEditor.fromHtml(EXAMPLE);
+        richEditor.setSelection(richEditor.getEditableText().length());
 
         setupBold();
         setupItalic();
@@ -53,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         bold.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                myRichEditText.bold(!myRichEditText.contains(RichEditor.FORMAT_BOLD));
+                richEditor.bold(!richEditor.contains(RichEditor.FORMAT_BOLD));
             }
         });
 
@@ -72,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
         italic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                myRichEditText.italic(!myRichEditText.contains(RichEditor.FORMAT_ITALIC));
+                richEditor.italic(!richEditor.contains(RichEditor.FORMAT_ITALIC));
             }
         });
 
@@ -91,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
         underline.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                myRichEditText.underline(!myRichEditText.contains(RichEditor.FORMAT_UNDERLINED));
+                richEditor.underline(!richEditor.contains(RichEditor.FORMAT_UNDERLINED));
             }
         });
 
@@ -110,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
         strikethrough.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                myRichEditText.strikethrough(!myRichEditText.contains(RichEditor.FORMAT_STRIKETHROUGH));
+                richEditor.strikethrough(!richEditor.contains(RichEditor.FORMAT_STRIKETHROUGH));
             }
         });
 
@@ -129,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
         bullet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                myRichEditText.bullet(!myRichEditText.contains(RichEditor.FORMAT_BULLET));
+                richEditor.bullet(!richEditor.contains(RichEditor.FORMAT_BULLET));
             }
         });
 
@@ -187,7 +188,7 @@ public class MainActivity extends AppCompatActivity {
         clear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                myRichEditText.clearFormats();
+                richEditor.clearFormats();
             }
         });
 
@@ -200,15 +201,15 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void colorPicker(final boolean isFromBgColor){
+    private void colorPicker(final boolean isFromBgColor) {
         ColorPicker colorPicker = new ColorPicker(MainActivity.this);
         colorPicker.setOnChooseColorListener(new ColorPicker.OnChooseColorListener() {
             @Override
             public void onChooseColor(int position, int color) {
-                if(isFromBgColor) {
-                    myRichEditText.changeBgColor(false, color);
-                }else{
-                    myRichEditText.changeTextColor(true, color);
+                if (isFromBgColor) {
+                    richEditor.changeBgColor(color);
+                } else {
+                    richEditor.changeTextColor(color);
                 }
             }
 
@@ -228,11 +229,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.undo:
-                myRichEditText.undo();
+            case R.id.text_import:
+                richEditor.fromHtml(getString(R.string.import_text));
                 break;
-            case R.id.redo:
-                myRichEditText.redo();
+            case R.id.export:
+                String toHtml = Html.toHtml(richEditor.getText());
+                Toast.makeText(MainActivity.this, toHtml, Toast.LENGTH_LONG).show();
                 break;
             case R.id.github:
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(getResources().getString(R.string.app_repo)));

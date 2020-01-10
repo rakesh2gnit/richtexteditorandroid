@@ -2,15 +2,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:id="@+id/undo"
-          android:title="@string/menu_undo"
-          android:icon="@drawable/ic_action_undo"
+    <item android:id="@+id/text_import"
+          android:title="@string/menu_import"
           app:showAsAction="ifRoom">
     </item>
 
-    <item android:id="@+id/redo"
-          android:title="@string/menu_redo"
-          android:icon="@drawable/ic_action_redo"
+    <item android:id="@+id/export"
+          android:title="@string/menu_export"
           app:showAsAction="ifRoom">
     </item>
 
